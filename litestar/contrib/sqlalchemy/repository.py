@@ -315,7 +315,7 @@ class SQLAlchemyAsyncRepository(AbstractAsyncRepository[ModelT], Generic[ModelT]
             NotFoundError: If no instance found with same identifier as `data`.
         """
         with wrap_sqlalchemy_exception():
-            instance = await self._attach_to_session(data)
+            instance = await self._attach_to_session(data, strategy="merge")
             await self.session.flush()
             self.session.expunge(instance)
             return instance
